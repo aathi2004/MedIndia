@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+  RECEPTIONIST
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum BloodGroup {
+  A_POS
+  A_NEG
+  B_POS
+  B_NEG
+  AB_POS
+  AB_NEG
+  O_POS
+  O_NEG
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum AppointmentType {
+  CHECKUP
+  FOLLOW_UP
+  CONSULTATION
+  EMERGENCY
+  OTHER
+}
+
+model User {
+  id            Int              @id @default(autoincrement())
+  name          String
+  email         String           @unique
+  passwordHash  String
+  role          Role             @default(RECEPTIONIST)
+  createdAt     DateTime         @default(now())
+
+  appointments  Appointment[]
+  visits        MedicalVisit[]
+  prescriptions Prescription[]
+}
+
+model Patient {
+  id                    Int         @id @default(autoincrement())
+  patientId             String      @unique
+  firstName             String
+  lastName              String
+  dateOfBirth           DateTime
+  gender                Gender
+  phone                 String
+  email                 String?
+  address               String?
+  bloodGroup            BloodGroup?
+  allergies             String?
+  existingConditions    String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+
+  appointments  Appointment[]
+  visits        MedicalVisit[]
+  prescriptions Prescription[]
+
+  @@index([firstName, lastName])
+  @@index([phone])
+}
+
+model Appointment {
+  id              Int               @id @default(autoincrement())
+  patientId       Int
+  doctorId        Int
+  appointmentDate DateTime
+  time            String?
+  type            AppointmentType   @default(CHECKUP)
+  reason          String?
+  status          AppointmentStatus @default(SCHEDULED)
+  createdAt       DateTime          @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor  User    @relation(fields: [doctorId], references: [id])
+
+  @@index([appointmentDate])
+  @@index([status])
+  @@index([doctorId, appointmentDate])
+}
+
+model MedicalVisit {
+  id             Int      @id @default(autoincrement())
+  patientId      Int
+  doctorId       Int
+  visitDate      DateTime
+  chiefComplaint String
+  symptoms       String?
+  bloodPressure  String?
+  heartRate      Int?
+  temperature    Decimal?
+  weight         Decimal?
+  diagnosis      String?
+  treatmentPlan  String?
+  notes          String?
+  createdAt      DateTime @default(now())
+
+  patient      Patient       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor       User          @relation(fields: [doctorId], references: [id])
+  prescription Prescription?
+
+  @@index([patientId, visitDate])
+}
+
+model Prescription {
+  id            Int      @id @default(autoincrement())
+  patientId     Int
+  doctorId      Int
+  visitId       Int      @unique
+  prescribedDate DateTime @default(now())
+  notes         String?
+
+  patient Patient             @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor  User                @relation(fields: [doctorId], references: [id])
+  visit   MedicalVisit        @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  items   PrescriptionItem[]
+}
+
+model PrescriptionItem {
+  id             Int    @id @default(autoincrement())
+  prescriptionId Int
+  medicineName   String
+  dosage         String
+  frequency      String
+  duration       String
+  instructions   String?
+
+  prescription Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+}
