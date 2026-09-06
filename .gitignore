@@ -31,3 +31,4 @@ Thumbs.db
 # Prisma
 server/prisma/*.db
 server/prisma/migrations/dev/
+.vercel
