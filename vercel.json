@@ -8,16 +8,8 @@
       "config": {
         "includeFiles": [
           "server/src/generated-client/**",
-          "node_modules/.prisma/client/**",
-          "node_modules/@prisma/client/**"
+          "client/dist/**"
         ]
-      }
-    },
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
       }
     }
   ],
@@ -32,7 +24,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/server/api/index.ts"
     }
   ]
 }
