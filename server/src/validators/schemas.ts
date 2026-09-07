@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AppointmentStatus, AppointmentType, BloodGroup, Gender, Role } from '@prisma/client';
+import { AppointmentStatus, AppointmentType, BloodGroup, Gender, Role } from '../generated-client/index.js';
 
 const password = z
   .string()

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Role } from '@prisma/client';
+import { Role } from '../generated-client/index.js';
 import { verifyToken } from '../lib/jwt.js';
 import { prisma } from '../lib/prisma.js';
 import { ApiError } from '../utils/APIError.js';

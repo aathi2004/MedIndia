@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Role } from '@prisma/client';
+import { Role } from '../generated-client/index.js';
 import { deletePrescription } from '../controllers/prescription.controller.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 

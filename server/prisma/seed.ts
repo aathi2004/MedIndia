@@ -1,4 +1,4 @@
-import { PrismaClient, Role, BloodGroup, Gender, AppointmentStatus, AppointmentType } from '@prisma/client';
+import { PrismaClient, Role, BloodGroup, Gender, AppointmentStatus, AppointmentType } from '../src/generated-client/index.js';
 import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();

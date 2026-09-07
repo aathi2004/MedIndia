@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Role } from '@prisma/client';
+import { Role } from '../generated-client/index.js';
 import { listUsers, createUser, getUser, deleteUser } from '../controllers/user.controller.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';

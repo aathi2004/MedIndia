@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+import { Role } from '../generated-client/index.js';
 
 declare global {
   // Express type augmentation — namespace syntax is required for this pattern.

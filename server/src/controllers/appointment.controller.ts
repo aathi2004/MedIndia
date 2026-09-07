@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AppointmentStatus } from '@prisma/client';
+import { AppointmentStatus } from '../generated-client/index.js';
 import { prisma } from '../lib/prisma.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { ApiError } from '../utils/APIError.js';

@@ -1,6 +1,6 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { env } from '../config/env.js';
-import { User } from '@prisma/client';
+import { User } from '../generated-client/index.js';
 
 export interface TokenPayload {
   sub: number;
