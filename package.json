@@ -15,7 +15,7 @@
     "db:push": "npm run db:push -w server",
     "db:seed": "npm run db:seed -w server",
     "setup": "npm run db:push && npm run db:seed",
-    "postinstall": "prisma generate --schema server/prisma/schema.prisma"
+    "postinstall": "node node_modules/prisma/build/index.js generate --schema server/prisma/schema.prisma"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
